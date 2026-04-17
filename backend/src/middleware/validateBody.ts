@@ -6,6 +6,7 @@ export function validateBody(schema: ObjectSchema) {
     const { error, value } = schema.validate(req.body, { abortEarly: false });
     if (error) {
       res.status(400).json({
+        status: 400,
         message: "Validation failed",
         details: error.details.map((d) => d.message),
       });
