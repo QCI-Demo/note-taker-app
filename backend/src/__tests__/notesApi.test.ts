@@ -65,6 +65,10 @@ describe("Notes API", () => {
         content: "B",
       });
       expect(second.status).toBe(409);
+      expect(second.body).toEqual({
+        status: 409,
+        message: "A note with this id already exists",
+      });
     });
   });
 
@@ -89,6 +93,7 @@ describe("Notes API", () => {
         .put("/notes/missing-id")
         .send({ content: "x" });
       expect(res.status).toBe(404);
+      expect(res.body).toEqual({ status: 404, message: "Note not found" });
     });
 
     it("returns 400 for invalid body", async () => {
@@ -116,6 +121,7 @@ describe("Notes API", () => {
     it("returns 404 when note does not exist", async () => {
       const res = await request(app).delete("/notes/unknown");
       expect(res.status).toBe(404);
+      expect(res.body).toEqual({ status: 404, message: "Note not found" });
     });
   });
 });
